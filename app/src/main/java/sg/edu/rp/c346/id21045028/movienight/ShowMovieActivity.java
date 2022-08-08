@@ -37,11 +37,15 @@ public class ShowMovieActivity extends AppCompatActivity {
         aa = new CustomAdapter(this,
                 R.layout.row, al);
 
+
         ArrayList<String> years = new ArrayList<String>();
-        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = 1980; i <= thisYear ; i++) {
-            years.add(Integer.toString(i));
+        DBHelper dbh = new DBHelper(ShowMovieActivity.this);
+        al.addAll(dbh.getAllNotes());
+        for(int i = 0; i < al.size();i++){
+            years.add(al.get(i).getYear());
         }
+
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
         yearFilter.setAdapter(adapter);
@@ -49,7 +53,7 @@ public class ShowMovieActivity extends AppCompatActivity {
 
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int i, long id) {
-                DBHelper dbh = new DBHelper(ShowMovieActivity.this);
+
                 al.clear();
                 String filterText = years.get(i);
                 if(filterText.length() == 0) {
@@ -84,7 +88,7 @@ public class ShowMovieActivity extends AppCompatActivity {
             }
         });
 
-        DBHelper dbh = new DBHelper(ShowMovieActivity.this);
+
         al.clear();
         al.addAll(dbh.getAllNotes());
         aa.notifyDataSetChanged();

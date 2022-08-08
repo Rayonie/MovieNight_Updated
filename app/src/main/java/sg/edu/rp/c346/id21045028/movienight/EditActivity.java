@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -86,13 +87,23 @@ public class EditActivity extends AppCompatActivity {
                     agelimit = "R21";
                 }
                 DBHelper dbh = new DBHelper(EditActivity.this);
-                data.setTitle(title);
-                data.setGenre(genre);
-                data.setYear(Year);
-                data.setRating(agelimit);
-                dbh.updateNote(data);
-                dbh.close();
-                finish();
+                if(title.isEmpty() || genre.isEmpty() || Year.isEmpty() || agelimit.isEmpty()){
+                    Toast.makeText(EditActivity.this, "Please do not leave any blank",
+                            Toast.LENGTH_SHORT).show();
+                }else {
+                    if(Integer.parseInt(Year) > 1900) {
+                        data.setTitle(title);
+                        data.setGenre(genre);
+                        data.setYear(Year);
+                        data.setRating(agelimit);
+                        dbh.updateNote(data);
+                        dbh.close();
+                        finish();
+                    }else{
+                        Toast.makeText(EditActivity.this, "Only accept movies from 1900 onwards",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 

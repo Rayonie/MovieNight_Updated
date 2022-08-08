@@ -66,12 +66,25 @@ public class MainActivity extends AppCompatActivity {
                 }else if(rating.getSelectedItemPosition() == 5){
                     agelimit = "R21";
                 }
-                DBHelper dbh = new DBHelper(MainActivity.this);
-                long inserted_id = dbh.insertNote(title,genre,Year,agelimit);
 
-                if (inserted_id != -1){
-                    Toast.makeText(MainActivity.this, "Insert successful",
+                if(title.isEmpty() || genre.isEmpty() || Year.isEmpty() || agelimit.isEmpty()){
+                    Toast.makeText(MainActivity.this, "Please do not leave any blank",
                             Toast.LENGTH_SHORT).show();
+                }else{
+                    if(Integer.parseInt(Year) > 1900){
+                    DBHelper dbh = new DBHelper(MainActivity.this);
+                    long inserted_id = dbh.insertNote(title,genre,Year,agelimit);
+
+                    if (inserted_id != -1) {
+                        Toast.makeText(MainActivity.this, "Insert successful",
+                                Toast.LENGTH_SHORT).show();
+
+                    }
+                    }else{
+                        Toast.makeText(MainActivity.this, "Only accept movies from 1900 onwards",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
         });
